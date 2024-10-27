@@ -1,0 +1,50 @@
+syntax = "proto3";
+option go_package = ".;proto";
+
+import "google/protobuf/empty.proto";
+
+
+service Wallet{
+  // 批量生成地址
+  rpc BatchCreateWallet(BatchCreateWalletReq) returns (google.protobuf.Empty);
+  // 通过私钥生成地址信息
+//  rpc CreateAddressByPrivateKey(CreateAddressByPrivateKeyReq) returns (google.protobuf.Empty);
+  // 将公钥转换为地址信息
+//  rpc GetAddressByPublicKey(GetAddressByPublicKeyReq) returns(google.protobuf.Empty);
+  // 为新用户分配地址
+  rpc UpdateWalletUser(UpdateWalletUserReq) returns(WalletInfo);
+  // 通过用户ID查询地址地址信息
+  rpc GetAddressByUserId(GetAddressByUserIdReq) returns(WalletInfo);
+  // 通过用户地址信息查询地址地址信息
+  rpc GetAddress(GetAddressReq) returns(WalletInfo);
+  // 对代币交易签名
+//  rpc OfflineSignErc20Tx(OfflineSignErc20TxReq) returns(Wallet);
+  // 对NFT交易签名
+//  rpc OfflineSignErc721Tx(OfflineSignErc721TxReq) returns(Wallet);
+}
+
+
+message WalletInfo{
+  uint64 user_id = 1;
+  string address = 2;
+  string public_key = 3;
+  uint64 update_time = 4;
+  uint32 address_type = 5;
+}
+
+message BatchCreateWalletReq{
+  uint32 num = 1; // 创建新地址数量
+}
+
+message UpdateWalletUserReq{
+  uint64 user_id = 1;
+  string address = 2;
+}
+
+message GetAddressByUserIdReq{
+  uint64 user_id = 1;
+}
+
+message GetAddressReq{
+  string address = 1;
+}
